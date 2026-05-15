@@ -77,12 +77,12 @@ export default function BookingForm() {
   };
 
   const startVoice = () => {
-    const SR = (window as unknown as { SpeechRecognition?: new () => SpeechRecognition; webkitSpeechRecognition?: new () => SpeechRecognition }).SpeechRecognition ||
-      (window as unknown as { webkitSpeechRecognition?: new () => SpeechRecognition }).webkitSpeechRecognition;
+    const w = window as unknown as { SpeechRecognition?: new () => any; webkitSpeechRecognition?: new () => any };
+    const SR = w.SpeechRecognition || w.webkitSpeechRecognition;
     if (!SR) { toast.error("Voice input not supported"); return; }
     const rec = new SR();
     rec.lang = "en-IN";
-    rec.onresult = (e: SpeechRecognitionEvent) => setValue("patient_name", e.results[0][0].transcript);
+    rec.onresult = (e: any) => setValue("patient_name", e.results[0][0].transcript);
     rec.onend = () => setListening(false);
     rec.onerror = () => setListening(false);
     setListening(true);
